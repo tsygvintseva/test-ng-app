@@ -17,11 +17,11 @@ export class PetsTableComponent implements OnInit {
   }
 
   pets = mockData;
-
   petsForm: FormGroup;
-
+  click = false;
+  button = 'Создать';
+  title = 'Новый питомец';
   genderArray = ['M', 'Ж'];
-
   typeArray = ['Кот', 'Собака', 'Птица'];
 
   initForm() {
@@ -30,13 +30,14 @@ export class PetsTableComponent implements OnInit {
       'gender': ['', [Validators.required]],
       'type': [ '' , [Validators.required]],
       'color': [ '' , [Validators.required, Validators.minLength(3)]],
-      'vaccination': [ false , [Validators.requiredTrue]],
+      'vaccination': [ false ],
     })
   }
 
   onSubmit() {
     // const id = ++this.counter;
-    const id = this.pets.length + 1;
+    const maxId = this.pets.reduce((max, item) => item.id > max ? item.id : max, 0);
+    const id = maxId + 1;
     const pet = {
       id,
       name : this.petsForm.value.name,
@@ -50,11 +51,7 @@ export class PetsTableComponent implements OnInit {
   }
 
   deletePet(id) {
-    const index = this.pets.findIndex((pet) => {
-      return pet.id === id;
-    });
-
-    this.pets.splice(index, 1);
+    this.pets.splice(this.pets.findIndex((pet) => pet.id === id), 1);
   }
 
   // Валидация
@@ -72,9 +69,5 @@ export class PetsTableComponent implements OnInit {
 
   get elColor() {
     return this.petsForm.get('color');
-  }
-
-  get elVaccine() {
-    return this.petsForm.get('vaccination');
   }
 }

@@ -1,29 +1,81 @@
 .pets {
   width: 100%;
   display: flex;
+  justify-content: space-between;
   box-sizing: border-box;
 }
 
-.pets__tableWrap {
-  width: 50%;
+.pets__tableWrap.half {
+  width: 60%;
+  transition: width 0.2s ease;
+}
+
+.pets__tableWrap.full {
+  width: 100%;
+  transition: width 0.2s ease;
 }
 
 .pets__table {
-  width: 50%;
-  border: 1px solid #000;
+  width: 100%;
+  margin-top: 30px;
+  text-align: center;
+  border-collapse: collapse;
+  background: #FFFFFF;
+  box-shadow: 0px 2px 27px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+
+  & th {
+    padding: 15px;
+    margin: 0;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 18px;
+    color: #000000;
+    border-right: 1px solid #ECECEC;
+    border-bottom: 1px solid #ECECEC;
+
+    &:last-of-type {
+      border-right: none;
+    }
+  }
+
+  & td {
+    padding: 15px 5px;
+    margin: 0;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 20px;
+    color: #333333;
+    border-right: 1px solid #ECECEC;
+
+    &:last-of-type {
+      border-right: none;
+    }
+  }
 }
 
 .pets__form {
-  & label,
   & button {
     display: block;
   }
 
+  & label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    color: #63D1BB;
+    cursor: pointer;
+    & span {
+      width: 20%;
+    }
+  }
+
   & input,
   & select {
-    display: block;
-    width: 100%;
+    margin-top: 5px;
+    padding: 10px;
     box-sizing: border-box;
+    border: 1px solid #ECECEC;
   }
 
   & input.pets__input-checkbox,
@@ -32,8 +84,88 @@
     width: auto;
   }
 }
-// 
-// input.ng-pristine.ng-invalid.ng-touched,
-// input.ng-invalid.ng-dirty.ng-touched {
-//   border: 1px solid red;
-// }
+
+.pets__button {
+  padding: 15px 30px;
+  margin-top: 60px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 16px;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  background: #63D1BB;
+  border-radius: 40px;
+  border: none;
+  cursor: pointer;
+
+  &--form {
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 15px 50px;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+}
+
+.pets__button.disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.pets__button-table {
+  padding: 5px;
+  width: 150px;
+  margin: 0 auto;
+  margin-bottom: 5px;
+  font-size: 12px;
+  text-align: center;
+  color: #63D1BB;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid #63D1BB;
+  border-radius: 40px;
+  cursor: pointer;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  &:hover {
+    color: #fff;
+    background: #63D1BB;
+  }
+}
+
+.pets__buttonWrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.pets__form.none {
+  display: none;
+}
+
+.pets__form.hulf {
+  width: 35%;
+}
+
+.pets__tableAdd {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 32px;
+}
+
+.pets__form-title {
+  margin-top: 0;
+  font-size: 22px;
+  color: #63D1BB;
+}
+
+.pets__input-checkbox {
+  margin: 0;
+  margin-right: 5px;
+}

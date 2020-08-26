@@ -1,82 +1,88 @@
-<div class="pets">
+<div class="pets__wrap">
 
-  <div class="pets__tableWrap">
-    <button>Добавить</button>
-    <table class="pets__table" *ngIf="pets.length > 0">
-      <tr>
-        <th>id</th>
-        <th>Кличка</th>
-        <th>Пол</th>
-        <th>Тип</th>
-        <th>Цвет</th>
-        <th>Прививка</th>
-        <th></th>
-      </tr>
-      <tr *ngFor="let pet of pets">
-        <td class="">
-          {{pet.id}}
-        </td>
-        <td>
-          {{pet.name}}
-        </td>
-        <td>
-          {{pet.gender}}
-        </td>
-        <td>
-          {{pet.type}}
-        </td>
-        <td>
-          {{pet.color}}
-        </td>
-        <td>
-          <!-- {{pet.vaccine}} -->
-          <!-- <span>Есть</span>
-          <span>Нет</span> -->
-          {{ pet.vaccination ? "Есть" : "Нет" }}
-        </td>
-        <td>
-          <!-- <button (click)=changePet(pet.id)>Удалить</button> -->
-          <button (click)=deletePet(pet.id)>Удалить</button>
-        </td>
-      </tr>
-    </table>
+  <button class="pets__button" (click)="click = !click" [disabled]="click">Добавить</button>
+
+  <div class="pets">
+    <div class="pets__tableWrap" [ngClass]="{ half: click, full: !click }">
+      <ng-template #elseBlock>
+        <p class="pets__tableAdd">
+          Нет питомцев
+        </p>
+      </ng-template>
+      <table class="pets__table" *ngIf="pets.length > 0; else elseBlock">
+        <tr>
+          <th>id</th>
+          <th>Кличка</th>
+          <th>Пол</th>
+          <th>Тип</th>
+          <th>Цвет</th>
+          <th>Прививка</th>
+          <th>Редактировать</th>
+        </tr>
+        <tr *ngFor="let pet of pets">
+          <td class="">
+            {{pet.id}}
+          </td>
+          <td>
+            {{pet.name}}
+          </td>
+          <td>
+            {{pet.gender}}
+          </td>
+          <td>
+            {{pet.type}}
+          </td>
+          <td>
+            {{pet.color}}
+          </td>
+          <td [ngStyle]="{'color':pet.vaccination === true ? '#333' : '#FF0000' }">
+            {{ pet.vaccination ? "Есть" : "Нет" }}
+          </td>
+          <td class="pets__buttonWrap">
+            <button class="pets__button-table" (click)=deletePet(pet.id)>Удалить</button>
+            <button class="pets__button-table">Изменить</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <form class="pets__form" [formGroup]="petsForm"  [ngClass]="{ none: !click, hulf: click }">
+
+      <h1 class="pets__form-title">{{title}}</h1>
+
+      <label>
+        <span>Кличка</span>
+        <input type="text" formControlName="name" required>
+      </label>
+
+      <label>
+        <span>Пол</span>
+        <select formControlName="gender">
+          <option value="" disabled>Не выбрано</option>
+          <option *ngFor="let gender of genderArray" [ngValue]="gender">{{gender}}</option>
+       </select>
+      </label>
+
+      <label>
+        <span>Тип</span>
+        <select formControlName="type">
+          <option value="" disabled>Не выбрано</option>
+          <option *ngFor="let type of typeArray" [ngValue]="type">{{type}}</option>
+       </select>
+      </label>
+
+      <label>
+        <span>Цвет</span>
+        <input type="text" formControlName="color" required>
+      </label>
+
+      <label class="pets__label-checkbox">
+        <input class="pets__input-checkbox" type="checkbox" formControlName="vaccination">
+        <span>Прививка</span>
+      </label>
+
+      <button class="pets__button pets__button--form" (click)="onSubmit()" (click)="click = !click" [disabled]="elName.invalid || elName.invalid || elGender.invalid || elType.invalid || elColor.invalid" type="submit">Cоздать</button>
+
+    </form>
   </div>
-
-  <form class="pets__form" [formGroup]="petsForm" (ngSubmit)="onSubmit()">
-
-    <p class="">Новый питомец</p>
-
-    <label>
-      Кличка <input type="text" formControlName="name" required>
-    </label>
-
-    <label for="">
-      Пол
-      <select formControlName="gender">
-        <option value="" disabled>Не выбрано</option>
-        <option *ngFor="let gender of genderArray" [ngValue]="gender">{{gender}}</option>
-     </select>
-    </label>
-
-    <label for="">
-      Тип
-      <select formControlName="type">
-        <option value="" disabled>Не выбрано</option>
-        <option *ngFor="let type of typeArray" [ngValue]="type">{{type}}</option>
-     </select>
-    </label>
-
-    <label>
-      Цвет <input type="text" formControlName="color" required>
-    </label>
-
-    <label class="pets__label-checkbox">
-      <input class="pets__input-checkbox" type="checkbox" formControlName="vaccination">
-      Прививка
-    </label>
-
-    <button [disabled]="elName.invalid || elName.invalid || elGender.invalid || elType.invalid || elColor.invalid || elVaccine.invalid" type="submit">Cоздать</button>
-
-  </form>
-
 </div>
