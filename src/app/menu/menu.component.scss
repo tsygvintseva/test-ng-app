@@ -1,0 +1,38 @@
+.main-nav {
+  display: flex;
+  border: 1px solid #000;
+}
+
+.main-nav__logo {
+  padding: 20px;
+  margin: 0;
+  font-size: 18px;
+  line-height: 24px;
+  border-right: 1px solid #000;
+}
+
+.main-nav__list {
+  margin: 0;
+  padding: 20px;
+  list-style: none;
+}
+
+.main-nav__link {
+  font-size: 18px;
+  line-height: 24px;
+  color: #000;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.main-nav__logo a {
+  color: #000;
+  text-decoration: none;
+}
+
+.main-nav__link.active {
+  color: #62D1BA;
+}
