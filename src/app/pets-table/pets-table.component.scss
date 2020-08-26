@@ -1,0 +1,39 @@
+.pets {
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+}
+
+.pets__tableWrap {
+  width: 50%;
+}
+
+.pets__table {
+  width: 50%;
+  border: 1px solid #000;
+}
+
+.pets__form {
+  & label,
+  & button {
+    display: block;
+  }
+
+  & input,
+  & select {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  & input.pets__input-checkbox,
+  & label.pets__label-checkbox {
+    display: inline;
+    width: auto;
+  }
+}
+// 
+// input.ng-pristine.ng-invalid.ng-touched,
+// input.ng-invalid.ng-dirty.ng-touched {
+//   border: 1px solid red;
+// }

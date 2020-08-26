@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder} from '@angular/forms';
+import mockData from '../app.pets.mock';
 
 @Component({
   selector: 'app-pets-table',
@@ -7,9 +10,71 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PetsTableComponent implements OnInit {
 
-  constructor() { }
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.initForm();
   }
 
+  pets = mockData;
+
+  petsForm: FormGroup;
+
+  genderArray = ['M', 'Ж'];
+
+  typeArray = ['Кот', 'Собака', 'Птица'];
+
+  initForm() {
+    this.petsForm = this.fb.group({
+      'name': [ '' , [Validators.required, Validators.minLength(3)]],
+      'gender': ['', [Validators.required]],
+      'type': [ '' , [Validators.required]],
+      'color': [ '' , [Validators.required, Validators.minLength(3)]],
+      'vaccination': [ false , [Validators.requiredTrue]],
+    })
+  }
+
+  onSubmit() {
+    // const id = ++this.counter;
+    const id = this.pets.length + 1;
+    const pet = {
+      id,
+      name : this.petsForm.value.name,
+      gender : this.petsForm.value.gender,
+      type : this.petsForm.value.type,
+      color : this.petsForm.value.color,
+      vaccination : this.petsForm.value.vaccination,
+    };
+    this.pets.push(pet);
+    this.initForm();
+  }
+
+  deletePet(id) {
+    const index = this.pets.findIndex((pet) => {
+      return pet.id === id;
+    });
+
+    this.pets.splice(index, 1);
+  }
+
+  // Валидация
+  get elName() {
+    return this.petsForm.get('name');
+  }
+
+  get elGender() {
+    return this.petsForm.get('gender');
+  }
+
+  get elType() {
+    return this.petsForm.get('type');
+  }
+
+  get elColor() {
+    return this.petsForm.get('color');
+  }
+
+  get elVaccine() {
+    return this.petsForm.get('vaccination');
+  }
 }

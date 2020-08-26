@@ -1,1 +1,82 @@
-<p>pets-table works!</p>
+<div class="pets">
+
+  <div class="pets__tableWrap">
+    <button>Добавить</button>
+    <table class="pets__table" *ngIf="pets.length > 0">
+      <tr>
+        <th>id</th>
+        <th>Кличка</th>
+        <th>Пол</th>
+        <th>Тип</th>
+        <th>Цвет</th>
+        <th>Прививка</th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let pet of pets">
+        <td class="">
+          {{pet.id}}
+        </td>
+        <td>
+          {{pet.name}}
+        </td>
+        <td>
+          {{pet.gender}}
+        </td>
+        <td>
+          {{pet.type}}
+        </td>
+        <td>
+          {{pet.color}}
+        </td>
+        <td>
+          <!-- {{pet.vaccine}} -->
+          <!-- <span>Есть</span>
+          <span>Нет</span> -->
+          {{ pet.vaccination ? "Есть" : "Нет" }}
+        </td>
+        <td>
+          <!-- <button (click)=changePet(pet.id)>Удалить</button> -->
+          <button (click)=deletePet(pet.id)>Удалить</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <form class="pets__form" [formGroup]="petsForm" (ngSubmit)="onSubmit()">
+
+    <p class="">Новый питомец</p>
+
+    <label>
+      Кличка <input type="text" formControlName="name" required>
+    </label>
+
+    <label for="">
+      Пол
+      <select formControlName="gender">
+        <option value="" disabled>Не выбрано</option>
+        <option *ngFor="let gender of genderArray" [ngValue]="gender">{{gender}}</option>
+     </select>
+    </label>
+
+    <label for="">
+      Тип
+      <select formControlName="type">
+        <option value="" disabled>Не выбрано</option>
+        <option *ngFor="let type of typeArray" [ngValue]="type">{{type}}</option>
+     </select>
+    </label>
+
+    <label>
+      Цвет <input type="text" formControlName="color" required>
+    </label>
+
+    <label class="pets__label-checkbox">
+      <input class="pets__input-checkbox" type="checkbox" formControlName="vaccination">
+      Прививка
+    </label>
+
+    <button [disabled]="elName.invalid || elName.invalid || elGender.invalid || elType.invalid || elColor.invalid || elVaccine.invalid" type="submit">Cоздать</button>
+
+  </form>
+
+</div>
