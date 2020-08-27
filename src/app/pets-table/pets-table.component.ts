@@ -3,6 +3,15 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {FormGroup, Validators, FormBuilder} from '@angular/forms';
 import mockData from '../app.pets.mock';
 
+interface IPet {
+  id?: number;
+  name?: string;
+  gender?: string;
+  type?: string;
+  color?: string;
+  vaccination?: boolean;
+}
+
 @Component({
   selector: 'app-pets-table',
   templateUrl: './pets-table.component.html',
@@ -19,11 +28,10 @@ export class PetsTableComponent implements OnInit {
 
   pets = mockData;
   petsForm: FormGroup;
-  click = false;
-  button = 'Создать';
-  title = 'Новый питомец';
-  genderArray = ['M', 'Ж'];
+  openedRightSide = false;
+  genderArray = ['М', 'Ж'];
   typeArray = ['Кот', 'Собака', 'Птица'];
+  selectedPet: IPet;
 
   initForm() {
     this.petsForm = this.fb.group({
@@ -51,20 +59,54 @@ export class PetsTableComponent implements OnInit {
       vaccination: this.petsForm.value.vaccination,
     };
     this.pets.push(pet);
+    this.openRightSide();
+  }
+
+  editPet(id) {
+    this.selectedPet = this.pets.find((pet) => pet.id === id);
+    this.petsForm.patchValue(this.selectedPet);
+  }
+
+  open(id) {
+    console.log(id);
+    this.openRightSide();
+    this.editPet(id);
   }
 
   deletePet(id) {
     this.pets.splice(this.pets.findIndex((pet) => pet.id === id), 1);
   }
 
-  editPet(id) {
-    this.button = 'Изменить';
-    this.title = 'Редактировать';
-    const obj = this.pets.find((pet) => pet.id === id);
-    this.petsForm.patchValue(obj);
+  openRightSide() {
+    this.openedRightSide = !this.openedRightSide;
   }
 
-  // Валидация
+  save(id) {
+    console.log(id);
+    if (id) {
+
+      const tempPet = {
+        id,
+        name: this.elName.value,
+        gender: this.elGender.value,
+        type: this.elType.value,
+        color: this.elColor.value,
+        vaccination: this.elVaccination.value,
+      };
+
+      console.log('tempPet', tempPet);
+
+      const foundIndex = this.pets.findIndex(pet => pet.id === tempPet.id);
+      this.pets[foundIndex] = tempPet;
+
+      console.log(this.pets);
+
+      this.openRightSide();
+    } else {
+      this.addPet();
+    }
+  }
+
   get elName() {
     return this.petsForm.get('name');
   }
@@ -79,5 +121,9 @@ export class PetsTableComponent implements OnInit {
 
   get elColor() {
     return this.petsForm.get('color');
+  }
+
+  get elVaccination() {
+    return this.petsForm.get('vaccination');
   }
 }

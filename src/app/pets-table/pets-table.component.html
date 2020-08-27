@@ -1,9 +1,13 @@
 <div class="pets__wrap">
 
-  <button class="pets__button" (click)="click = !click" [disabled]="click">Добавить</button>
+  <button class="pets__button" (click)="openRightSide()" [disabled]="openedRightSide">Добавить</button>
+
+  <pre>{{selectedPet|json}}</pre>
+  {{ elName?.value }}
+  {{ openedRightSide }}
 
   <div class="pets">
-    <div class="pets__tableWrap" [ngClass]="{ full: !click }">
+    <div class="pets__tableWrap" [ngClass]="{ full: !openedRightSide }">
       <ng-template #elseBlock>
         <p class="pets__tableAdd">
           Нет питомцев
@@ -35,20 +39,20 @@
           <td>
             {{pet.color}}
           </td>
-          <td [ngStyle]="{'color':pet.vaccination === true ? '#333' : '#FF0000' }">
+          <td [ngStyle]="{'color': pet.vaccination === true ? '#333' : '#ff0000' }">
             {{ pet.vaccination ? "Есть" : "Нет" }}
           </td>
           <td class="pets__buttonWrap">
             <button class="pets__button-table" (click)=deletePet(pet.id)>Удалить</button>
-            <button class="pets__button-table" (click)="click = !click" (click)="editPet(pet.id)">Изменить</button>
+            <button class="pets__button-table" (click)="open(pet.id)">Изменить</button>
           </td>
         </tr>
       </table>
     </div>
 
-    <form class="pets__form" [formGroup]="petsForm" (ngSubmit)="onSubmit()" [ngClass]="{ hulf: click }">
+    <form class="pets__form" [formGroup]="petsForm" (ngSubmit)="onSubmit()" [ngClass]="{ hulf: openedRightSide }">
 
-      <h1 class="pets__form-title">{{title}}</h1>
+      <h1 class="pets__form-title">{{selectedPet?.id ? 'Редактировать' : 'Новый питомец'}}</h1>
 
       <label>
         <span>Кличка</span>
@@ -60,7 +64,7 @@
         <select formControlName="gender">
           <option value="" disabled>Не выбрано</option>
           <option *ngFor="let gender of genderArray" [ngValue]="gender">{{gender}}</option>
-       </select>
+        </select>
       </label>
 
       <label>
@@ -68,7 +72,7 @@
         <select formControlName="type">
           <option value="" disabled>Не выбрано</option>
           <option *ngFor="let type of typeArray" [ngValue]="type">{{type}}</option>
-       </select>
+        </select>
       </label>
 
       <label>
@@ -81,7 +85,14 @@
         <span>Привит</span>
       </label>
 
-      <button class="pets__button pets__button--form" (click)="click = !click" (click)="addPet()" [disabled]="petsForm.invalid" type="submit">{{ button }}</button>
+      <button
+        class="pets__button pets__button--form"
+        (click)="save(selectedPet.id)"
+        [disabled]="petsForm.invalid"
+        type="submit"
+      >
+        {{selectedPet?.id ? 'Изменить' : 'Создать'}}
+      </button>
 
     </form>
   </div>
