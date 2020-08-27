@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormGroup, Validators, FormBuilder} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
+import {FormGroup, Validators, FormBuilder} from '@angular/forms';
 import mockData from '../app.pets.mock';
 
 @Component({
@@ -10,7 +10,8 @@ import mockData from '../app.pets.mock';
 })
 export class PetsTableComponent implements OnInit {
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) {
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -26,12 +27,12 @@ export class PetsTableComponent implements OnInit {
 
   initForm() {
     this.petsForm = this.fb.group({
-      'name': [ '' , [Validators.required, Validators.minLength(3)]],
-      'gender': ['', [Validators.required]],
-      'type': [ '' , [Validators.required]],
-      'color': [ '' , [Validators.required, Validators.minLength(3)]],
-      'vaccination': [ false ],
-    })
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      gender: ['', [Validators.required]],
+      type: ['', [Validators.required]],
+      color: ['', [Validators.required, Validators.minLength(3)]],
+      vaccination: [false],
+    });
   }
 
   onSubmit() {
@@ -43,11 +44,11 @@ export class PetsTableComponent implements OnInit {
     const id = maxId + 1;
     const pet = {
       id,
-      name : this.petsForm.value.name,
-      gender : this.petsForm.value.gender,
-      type : this.petsForm.value.type,
-      color : this.petsForm.value.color,
-      vaccination : this.petsForm.value.vaccination,
+      name: this.petsForm.value.name,
+      gender: this.petsForm.value.gender,
+      type: this.petsForm.value.type,
+      color: this.petsForm.value.color,
+      vaccination: this.petsForm.value.vaccination,
     };
     this.pets.push(pet);
   }
@@ -59,7 +60,7 @@ export class PetsTableComponent implements OnInit {
   editPet(id) {
     this.button = 'Изменить';
     this.title = 'Редактировать';
-    let obj = this.pets.find((pet) => pet.id === id);
+    const obj = this.pets.find((pet) => pet.id === id);
     this.petsForm.patchValue(obj);
   }
 
