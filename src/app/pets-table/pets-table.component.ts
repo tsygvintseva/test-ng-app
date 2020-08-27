@@ -35,7 +35,10 @@ export class PetsTableComponent implements OnInit {
   }
 
   onSubmit() {
-    // const id = ++this.counter;
+    this.initForm();
+  }
+
+  addPet() {
     const maxId = this.pets.reduce((max, item) => item.id > max ? item.id : max, 0);
     const id = maxId + 1;
     const pet = {
@@ -47,11 +50,17 @@ export class PetsTableComponent implements OnInit {
       vaccination : this.petsForm.value.vaccination,
     };
     this.pets.push(pet);
-    this.initForm();
   }
 
   deletePet(id) {
     this.pets.splice(this.pets.findIndex((pet) => pet.id === id), 1);
+  }
+
+  editPet(id) {
+    this.button = 'Изменить';
+    this.title = 'Редактировать';
+    let obj = this.pets.find((pet) => pet.id === id);
+    this.petsForm.patchValue(obj);
   }
 
   // Валидация

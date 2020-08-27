@@ -3,7 +3,7 @@
   <button class="pets__button" (click)="click = !click" [disabled]="click">Добавить</button>
 
   <div class="pets">
-    <div class="pets__tableWrap" [ngClass]="{ half: click, full: !click }">
+    <div class="pets__tableWrap" [ngClass]="{ full: !click }">
       <ng-template #elseBlock>
         <p class="pets__tableAdd">
           Нет питомцев
@@ -20,7 +20,7 @@
           <th>Редактировать</th>
         </tr>
         <tr *ngFor="let pet of pets">
-          <td class="">
+          <td>
             {{pet.id}}
           </td>
           <td>
@@ -40,13 +40,13 @@
           </td>
           <td class="pets__buttonWrap">
             <button class="pets__button-table" (click)=deletePet(pet.id)>Удалить</button>
-            <button class="pets__button-table">Изменить</button>
+            <button class="pets__button-table" (click)="click = !click" (click)="editPet(pet.id)">Изменить</button>
           </td>
         </tr>
       </table>
     </div>
 
-    <form class="pets__form" [formGroup]="petsForm"  [ngClass]="{ none: !click, hulf: click }">
+    <form class="pets__form" [formGroup]="petsForm" (ngSubmit)="onSubmit()" [ngClass]="{ hulf: click }">
 
       <h1 class="pets__form-title">{{title}}</h1>
 
@@ -78,10 +78,10 @@
 
       <label class="pets__label-checkbox">
         <input class="pets__input-checkbox" type="checkbox" formControlName="vaccination">
-        <span>Прививка</span>
+        <span>Привит</span>
       </label>
 
-      <button class="pets__button pets__button--form" (click)="onSubmit()" (click)="click = !click" [disabled]="elName.invalid || elName.invalid || elGender.invalid || elType.invalid || elColor.invalid" type="submit">Cоздать</button>
+      <button class="pets__button pets__button--form" (click)="click = !click" (click)="addPet()" [disabled]="petsForm.invalid" type="submit">{{ button }}</button>
 
     </form>
   </div>

@@ -1,6 +1,6 @@
 export default [
   {
-    id: 5,
+    id: 21,
     name: 'Васька',
     gender: 'М',
     type: 'Кот',
@@ -8,7 +8,7 @@ export default [
     vaccination: true
   },
   {
-    id: 6,
+    id: 16,
     name: 'Мурка',
     gender: 'Ж',
     type: 'Кот',
