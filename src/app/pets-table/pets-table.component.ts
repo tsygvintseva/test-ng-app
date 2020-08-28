@@ -27,11 +27,13 @@ export class PetsTableComponent implements OnInit {
   }
 
   pets = mockData;
+  newPet = false;
   petsForm: FormGroup;
   openedRightSide = false;
   genderArray = ['М', 'Ж'];
   typeArray = ['Кот', 'Собака', 'Птица'];
   selectedPet: IPet;
+  public selectedName;
 
   initForm() {
     this.petsForm = this.fb.group({
@@ -62,68 +64,75 @@ export class PetsTableComponent implements OnInit {
     this.openRightSide();
   }
 
-  editPet(id) {
-    this.selectedPet = this.pets.find((pet) => pet.id === id);
-    this.petsForm.patchValue(this.selectedPet);
+  open(id) {
+    if (this.newPet) {
+      this.editPet(id);
+    } else {
+      this.openRightSide();
+      this.editPet(id);
+    }
   }
 
-  open(id) {
-    console.log(id);
-    this.openRightSide();
-    this.editPet(id);
+  editPet(id) {
+    this.selectedName = id;
+    this.selectedPet = this.pets.find((pet) => pet.id === id);
+    this.petsForm.patchValue(this.selectedPet);
   }
 
   deletePet(id) {
     this.pets.splice(this.pets.findIndex((pet) => pet.id === id), 1);
   }
 
+  closeForm() {
+    this.selectedPet = null;
+    this.selectedName = null;
+    this.newPet = !this.newPet;
+    this.openedRightSide = !this.openedRightSide;
+  }
+
   openRightSide() {
+    this.newPet = !this.newPet;
     this.openedRightSide = !this.openedRightSide;
   }
 
   save(id) {
-    console.log(id);
     if (id) {
-
       const tempPet = {
         id,
-        name: this.elName.value,
-        gender: this.elGender.value,
-        type: this.elType.value,
-        color: this.elColor.value,
-        vaccination: this.elVaccination.value,
+        name: this.name.value,
+        gender: this.gender.value,
+        type: this.type.value,
+        color: this.color.value,
+        vaccination: this.vaccination.value,
       };
-
-      console.log('tempPet', tempPet);
-
       const foundIndex = this.pets.findIndex(pet => pet.id === tempPet.id);
       this.pets[foundIndex] = tempPet;
-
-      console.log(this.pets);
-
+      this.selectedPet = null;
+      this.selectedName = null;
       this.openRightSide();
     } else {
       this.addPet();
     }
   }
 
-  get elName() {
+  get name() {
     return this.petsForm.get('name');
   }
 
-  get elGender() {
+  get gender() {
     return this.petsForm.get('gender');
   }
 
-  get elType() {
+  get type() {
     return this.petsForm.get('type');
   }
 
-  get elColor() {
+  get color() {
     return this.petsForm.get('color');
   }
 
-  get elVaccination() {
+  get vaccination() {
     return this.petsForm.get('vaccination');
   }
 }
+

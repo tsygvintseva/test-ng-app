@@ -1,11 +1,6 @@
 <div class="pets__wrap">
 
   <button class="pets__button" (click)="openRightSide()" [disabled]="openedRightSide">Добавить</button>
-
-  <pre>{{selectedPet|json}}</pre>
-  {{ elName?.value }}
-  {{ openedRightSide }}
-
   <div class="pets">
     <div class="pets__tableWrap" [ngClass]="{ full: !openedRightSide }">
       <ng-template #elseBlock>
@@ -23,7 +18,7 @@
           <th>Прививка</th>
           <th>Редактировать</th>
         </tr>
-        <tr *ngFor="let pet of pets">
+        <tr *ngFor="let pet of pets" [ngClass] = "{'highlight' : pet.id == selectedName} ">
           <td>
             {{pet.id}}
           </td>
@@ -44,7 +39,7 @@
           </td>
           <td class="pets__buttonWrap">
             <button class="pets__button-table" (click)=deletePet(pet.id)>Удалить</button>
-            <button class="pets__button-table" (click)="open(pet.id)">Изменить</button>
+            <button class="pets__button-table" (click)="open(pet.id)" >Изменить</button>
           </td>
         </tr>
       </table>
@@ -52,7 +47,10 @@
 
     <form class="pets__form" [formGroup]="petsForm" (ngSubmit)="onSubmit()" [ngClass]="{ hulf: openedRightSide }">
 
-      <h1 class="pets__form-title">{{selectedPet?.id ? 'Редактировать' : 'Новый питомец'}}</h1>
+      <div class="pets__form-titleWrap">
+        <h1 class="pets__form-title">{{selectedPet?.id ? 'Редактировать' : 'Новый питомец'}}</h1>
+        <button class="pets__form-close" (click)="closeForm()"></button>
+      </div>
 
       <label>
         <span>Кличка</span>
@@ -87,7 +85,7 @@
 
       <button
         class="pets__button pets__button--form"
-        (click)="save(selectedPet.id)"
+        (click)="save(selectedPet?.id)"
         [disabled]="petsForm.invalid"
         type="submit"
       >
