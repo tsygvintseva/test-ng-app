@@ -52,31 +52,69 @@
         <button class="pets__form-close" (click)="closeForm()"></button>
       </div>
 
-      <label>
-        <span>Кличка</span>
-        <input type="text" formControlName="name" required>
-      </label>
+      <div class="pets__inputWrap">
+        <label>
+          <span>Кличка</span>
+          <input type="text" formControlName="name" required>
+        </label>
 
-      <label>
-        <span>Пол</span>
-        <select formControlName="gender">
-          <option value="" disabled>Не выбрано</option>
-          <option *ngFor="let gender of genderArray" [ngValue]="gender">{{gender}}</option>
-        </select>
-      </label>
+        <div *ngIf="name.invalid && name.touched" class="pets__validation">
+          <span *ngIf="name.errors['required']">
+            Данное поле обязательно для заполнения
+          </span>
+          <span *ngIf="name.errors['minlength']">
+            Минимально допустимое количество символов - 3
+          </span>
+        </div>
+      </div>
 
-      <label>
-        <span>Тип</span>
-        <select formControlName="type">
-          <option value="" disabled>Не выбрано</option>
-          <option *ngFor="let type of typeArray" [ngValue]="type">{{type}}</option>
-        </select>
-      </label>
+      <div class="pets__inputWrap">
+        <label>
+          <span>Пол</span>
+          <select formControlName="gender">
+            <option value="" disabled>Не выбрано</option>
+            <option *ngFor="let gender of genderArray" [ngValue]="gender">{{gender}}</option>
+          </select>
+        </label>
 
-      <label>
-        <span>Цвет</span>
-        <input type="text" formControlName="color" required>
-      </label>
+        <div *ngIf="gender.invalid && gender.touched" class="pets__validation">
+          <span *ngIf="color.errors['required']">
+            Данное поле обязательно для заполнения
+          </span>
+        </div>
+      </div>
+
+      <div class="pets__inputWrap">
+        <label>
+          <span>Тип</span>
+          <select formControlName="type">
+            <option value="" disabled>Не выбрано</option>
+            <option *ngFor="let type of typeArray" [ngValue]="type">{{type}}</option>
+          </select>
+        </label>
+
+        <div *ngIf="type.invalid && type.touched" class="pets__validation">
+          <span *ngIf="type.errors['required']">
+            Данное поле обязательно для заполнения
+          </span>
+        </div>
+      </div>
+
+      <div class="pets__inputWrap">
+        <label>
+          <span>Цвет</span>
+          <input type="text" formControlName="color" required>
+        </label>
+
+        <div *ngIf="color.invalid && color.touched" class="pets__validation">
+          <span *ngIf="color.errors['required']">
+            Данное поле обязательно для заполнения
+          </span>
+          <span *ngIf="color.errors['minlength']">
+            Минимально допустимое количество символов - 3
+          </span>
+        </div>
+      </div>
 
       <label class="pets__label-checkbox">
         <input class="pets__input-checkbox" type="checkbox" formControlName="vaccination">

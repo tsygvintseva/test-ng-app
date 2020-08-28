@@ -225,3 +225,15 @@
   margin: 0;
   margin-right: 5px;
 }
+
+.pets__inputWrap {
+  position: relative;
+}
+
+.pets__validation {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 14px;
+  color: rgb(255, 0, 0)
+}
