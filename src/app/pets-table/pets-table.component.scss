@@ -61,9 +61,11 @@
   & tr.highlight {
     background-color: #F5F2F0;
 
-    & .pets__button-table {
+    & .pets__button-table:disabled {
       color: #fff;
       background: #63D1BB;
+      opacity: 0.4;
+      cursor: default;
     }
 
     & td,
@@ -150,6 +152,10 @@
 
   &:last-of-type {
     margin-bottom: 0;
+  }
+
+  &:focus {
+    outline: none;
   }
 
   &:hover {

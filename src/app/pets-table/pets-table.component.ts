@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {ReactiveFormsModule} from '@angular/forms';
-import {FormGroup, Validators, FormBuilder} from '@angular/forms';
+import {FormGroup, Validators, FormBuilder, AbstractControl} from '@angular/forms';
+import {MatDialog} from '@angular/material/dialog';
 import mockData from '../app.pets.mock';
+import { ModalComponent } from '../modal/modal.component';
 
 interface IPet {
   id?: number;
@@ -17,9 +18,10 @@ interface IPet {
   templateUrl: './pets-table.component.html',
   styleUrls: ['./pets-table.component.scss']
 })
+
 export class PetsTableComponent implements OnInit {
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -27,15 +29,16 @@ export class PetsTableComponent implements OnInit {
   }
 
   pets = mockData;
+  pet = {};
   newPet = false;
   petsForm: FormGroup;
   openedRightSide = false;
   genderArray = ['М', 'Ж'];
-  typeArray = ['Кот', 'Собака', 'Птица'];
+  typeArray: any = ['Кот', 'Собака', 'Птица'];
   selectedPet: IPet;
-  public selectedName;
+  selectedName;
 
-  initForm() {
+  initForm(): void {
     this.petsForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       gender: ['', [Validators.required]],
@@ -45,11 +48,11 @@ export class PetsTableComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.initForm();
   }
 
-  addPet() {
+  addPet(): void {
     const maxId = this.pets.reduce((max, item) => item.id > max ? item.id : max, 0);
     const id = maxId + 1;
     const pet = {
@@ -64,7 +67,7 @@ export class PetsTableComponent implements OnInit {
     this.openRightSide();
   }
 
-  open(id) {
+  open(id): void {
     if (this.newPet) {
       this.editPet(id);
     } else {
@@ -73,29 +76,48 @@ export class PetsTableComponent implements OnInit {
     }
   }
 
-  editPet(id) {
+  editPet(id): void {
     this.selectedName = id;
     this.selectedPet = this.pets.find((pet) => pet.id === id);
     this.petsForm.patchValue(this.selectedPet);
   }
 
-  deletePet(id) {
+  deletePet(id): void {
     this.pets.splice(this.pets.findIndex((pet) => pet.id === id), 1);
   }
 
-  closeForm() {
+  deletePetConfirm(id): void {
+    const petName = this.pets.find(pet => pet.id === id).name;
+    const dialogRef = this.dialog.open(ModalComponent, {
+      panelClass: 'myapp-dialog',
+      data: { name: petName },
+    });
+
+    dialogRef.afterClosed().subscribe(confirmresult => {
+      console.log(confirmresult);
+      if (confirmresult){
+        this.deletePet(id);
+        console.log('Delete confirm is approved by user.');
+      }
+      else {
+        console.log('Delete confirm is cancelled by user.');
+      }
+    });
+    }
+
+    closeForm(): void {
     this.selectedPet = null;
     this.selectedName = null;
     this.newPet = !this.newPet;
     this.openedRightSide = !this.openedRightSide;
   }
 
-  openRightSide() {
+  openRightSide(): void {
     this.newPet = !this.newPet;
     this.openedRightSide = !this.openedRightSide;
   }
 
-  save(id) {
+  save(id): void {
     if (id) {
       const tempPet = {
         id,
@@ -115,23 +137,23 @@ export class PetsTableComponent implements OnInit {
     }
   }
 
-  get name() {
+  get name(): AbstractControl {
     return this.petsForm.get('name');
   }
 
-  get gender() {
+  get gender(): AbstractControl {
     return this.petsForm.get('gender');
   }
 
-  get type() {
+  get type(): AbstractControl {
     return this.petsForm.get('type');
   }
 
-  get color() {
+  get color(): AbstractControl {
     return this.petsForm.get('color');
   }
 
-  get vaccination() {
+  get vaccination(): AbstractControl {
     return this.petsForm.get('vaccination');
   }
 }

@@ -5,7 +5,7 @@
     <div class="pets__tableWrap" [ngClass]="{ full: !openedRightSide }">
       <ng-template #elseBlock>
         <p class="pets__tableAdd">
-          Нет питомцев
+          Добавьте вашего питомца
         </p>
       </ng-template>
       <table class="pets__table" *ngIf="pets.length > 0; else elseBlock">
@@ -38,11 +38,12 @@
             {{ pet.vaccination ? "Есть" : "Нет" }}
           </td>
           <td class="pets__buttonWrap">
-            <button class="pets__button-table" (click)=deletePet(pet.id)>Удалить</button>
-            <button class="pets__button-table" (click)="open(pet.id)" >Изменить</button>
+            <button class="pets__button-table" (click)="deletePetConfirm(pet.id)" [disabled]="selectedPet?.id">Удалить</button>
+            <button class="pets__button-table" (click)="open(pet.id)" [disabled]="selectedPet?.id">Изменить</button>
           </td>
         </tr>
       </table>
+
     </div>
 
     <form class="pets__form" [formGroup]="petsForm" (ngSubmit)="onSubmit()" [ngClass]="{ hulf: openedRightSide }">
